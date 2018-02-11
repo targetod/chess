@@ -4,9 +4,10 @@
 
 using namespace std;
 using namespace boost::asio;
+
 int main()
 {
-    auto io_ptr = std::make_shared<io_service>();
+    auto io_ptr = make_shared<io_service>();
     thread threads[5];
 
 

@@ -15,7 +15,16 @@ set(Boost_USE_STATIC_RUNTIME    OFF)
 
 set (CMAKE_CXX_STANDARD 14)
 
-find_package(Boost 1.58  REQUIRED COMPONENTS
+# my settings boost path
+SET (BOOST_MIN_VERSION "1.60.0")
+#set(Boost_NO_SYSTEM_PATHS TRUE)
+#if (Boost_NO_SYSTEM_PATHS)
+#  set(BOOST_ROOT "/usr/local")
+#  set(BOOST_INCLUDE_DIRS "${BOOST_ROOT}/include")
+#  set(BOOST_LIBRARY_DIRS "${BOOST_ROOT}/lib")
+#endif (Boost_NO_SYSTEM_PATHS)
+
+find_package(Boost ${BOOST_MIN_VERSION}  REQUIRED COMPONENTS
     system
     coroutine
     thread
@@ -31,7 +40,9 @@ SET (SRC engine/chessboard.cpp
     engine/aiplayer.cpp    
     engine/humanplayer.cpp
     engine/perfomancemeasurement.cpp
-    engine/config.cpp)
+    engine/config.cpp
+    engine/asyncplayer.cpp
+    engine/asyncaiplayer.cpp)
 
 include_directories("engine")
 include_directories("tests")
@@ -81,6 +92,9 @@ target_link_libraries(example_ai_vs_human ${Boost_LIBRARIES})
 
 add_executable(example_ai_vs_ai examples/ai_vs_ai.cpp ${SRC} ${HEADER})
 target_link_libraries(example_ai_vs_ai ${Boost_LIBRARIES})
+
+add_executable(example_ai_vs_ai_async examples/ai_vs_ai_async.cpp ${SRC} ${HEADER})
+target_link_libraries(example_ai_vs_ai_async ${Boost_LIBRARIES})
 
 #add_custom_command(
 #     TARGET unit_test
