@@ -15,6 +15,12 @@ set(Boost_USE_STATIC_RUNTIME    OFF)
 
 set (CMAKE_CXX_STANDARD 14)
 
+#SET(GCC_COVERAGE_LINK_FLAGS    "-pthread")
+
+#set (CMAKE_CXX_FLAGS "-lboost_system")
+#set (CMAKE_CXX_FLAGS "-lboost_thread")
+#set (CMAKE_CXX_FLAGS "-lpthread")
+
 # my settings boost path
 SET (BOOST_MIN_VERSION "1.60.0")
 #set(Boost_NO_SYSTEM_PATHS TRUE)
@@ -88,13 +94,13 @@ target_link_libraries(unit_test gtest_main ${Boost_LIBRARIES})
 
 #####Examples
 add_executable(example_ai_vs_human examples/ai_vs_human.cpp ${SRC} ${HEADER})
-target_link_libraries(example_ai_vs_human ${Boost_LIBRARIES})
+target_link_libraries(example_ai_vs_human ${Boost_LIBRARIES} pthread)
 
 add_executable(example_ai_vs_ai examples/ai_vs_ai.cpp ${SRC} ${HEADER})
-target_link_libraries(example_ai_vs_ai ${Boost_LIBRARIES})
+target_link_libraries(example_ai_vs_ai ${Boost_LIBRARIES} pthread)
 
 add_executable(example_ai_vs_ai_async examples/ai_vs_ai_async.cpp ${SRC} ${HEADER})
-target_link_libraries(example_ai_vs_ai_async ${Boost_LIBRARIES})
+target_link_libraries(example_ai_vs_ai_async ${Boost_LIBRARIES} pthread)
 
 #add_custom_command(
 #     TARGET unit_test

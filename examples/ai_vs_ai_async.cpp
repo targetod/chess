@@ -1,17 +1,22 @@
+//#define BOOST_ASIO_DISABLE_THREADS
+
+#include <thread>
+#include <memory>
+
 #include "asyncgame.h"
 #include "asyncaiplayer.h"
-#include <thread>
-
 using namespace std;
 using namespace boost::asio;
 
 int main()
 {
     auto io_ptr = make_shared<io_service>();
+
     thread threads[5];
 
 
-    shared_ptr<AsyncAiPlayer> players[2] = {make_shared<AsyncAiPlayer>(WHITE, 2), make_shared<AsyncAiPlayer>(WHITE, 2)};
+    shared_ptr<AsyncAiPlayer> players[2] = {make_shared<AsyncAiPlayer>(WHITE, 2),
+                                            make_shared<AsyncAiPlayer>(BLACK, 3)};
     AsyncGame game(io_ptr, players[0], players[1]);
     game.start([io_ptr](AsyncPlayer::EndStatus end_status) {
         switch (end_status) {

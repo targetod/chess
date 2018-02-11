@@ -1,8 +1,9 @@
 #pragma once
-#include "chessplayer.h"
+
 
 #include <boost/asio/io_service.hpp>
 #include <functional>
+#include "chessplayer.h"
 
 class AsyncPlayer /*: public ChessPlayer*/
 {
@@ -37,8 +38,13 @@ public:
     std::shared_ptr<boost::asio::io_service::strand> getStrand() const;
     void setStrand(const std::shared_ptr<boost::asio::io_service::strand> &value);
 
+    std::shared_ptr<boost::asio::io_service> getService() const;
+    void setService(const std::shared_ptr<boost::asio::io_service> &value);
+
 protected:
     int color;
-    std::shared_ptr<boost::asio::io_service::strand> strand;
+    std::shared_ptr<boost::asio::io_service> ptr_serv_;
+    std::shared_ptr<boost::asio::io_service::strand> strand_;
+
 };
 typedef std::shared_ptr<AsyncPlayer> TAsyncPlayerPtr;
