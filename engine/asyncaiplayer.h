@@ -51,6 +51,7 @@ public:
      */
     virtual void cancel();
 
+    AsyncPlayer::EndStatus getStatus ( ChessBoard & board);
 
 private:
     void prepare(const ChessBoard & board, ReadyHandler handler) ;

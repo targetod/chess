@@ -48,7 +48,8 @@ SET (SRC engine/chessboard.cpp
     engine/perfomancemeasurement.cpp
     engine/config.cpp
     engine/asyncplayer.cpp
-    engine/asyncaiplayer.cpp)
+    engine/asyncaiplayer.cpp
+    engine/asyncgame.cpp)
 
 include_directories("engine")
 include_directories("tests")

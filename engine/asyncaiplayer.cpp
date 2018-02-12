@@ -6,6 +6,7 @@
 #include <boost/asio/strand.hpp>
 #include <boost/bind.hpp>
 #include "asyncaiplayer.h"
+#include "global.h"
 
 #include "perfomancemeasurement.h"
 
@@ -73,6 +74,32 @@ void AsyncAiPlayer::asyncShowResult(const ChessBoard & board,
                                     ReadyHandler handler)
 {
 
+
+
+}
+
+AsyncPlayer::EndStatus AsyncAiPlayer::getStatus ( ChessBoard & board){
+
+    ChessPlayer::Status PlStatus;
+    int color = getColor();
+
+    PlStatus = board.getPlayerStatus(color);
+
+    if (PlStatus == ChessPlayer::Normal || PlStatus == ChessPlayer::InCheck){
+        return AsyncPlayer::NONE;
+    }
+    else if (PlStatus == ChessPlayer::Checkmate && WHITE == color ){
+         return AsyncPlayer::WHITE_LOOSE;
+    }
+    else if (PlStatus == ChessPlayer::Stalemate && WHITE == color ){
+         return AsyncPlayer::WHITE_LOOSE;
+    }
+    else if (PlStatus == ChessPlayer::Stalemate && BLACK == color ){
+         return AsyncPlayer::WHITE_WIN;
+    }
+    else if (PlStatus == ChessPlayer::Checkmate && BLACK == color ){
+         return AsyncPlayer::WHITE_WIN;
+    }
 }
 
 void AsyncAiPlayer::cancel()
