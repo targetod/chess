@@ -16,7 +16,8 @@ int main()
 
 
     shared_ptr<AsyncAiPlayer> players[2] = {make_shared<AsyncAiPlayer>(WHITE, 2),
-                                            make_shared<AsyncAiPlayer>(BLACK, 3)};
+                                            make_shared<AsyncAiPlayer>(BLACK, 2)};
+
     AsyncGame game(io_ptr, players[0], players[1]);
     game.start([io_ptr](AsyncPlayer::EndStatus end_status) {
         switch (end_status) {

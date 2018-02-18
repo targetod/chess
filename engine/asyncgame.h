@@ -17,11 +17,16 @@ public:
     void start (AsyncPlayer::ResultReadyHandler  setStatusFunc);
 
 private:
+    void do_start();
+    void onGetNext(const Move & mv);
+    void onShowMove();
+
     shared_ptr<boost::asio::io_service> ptr_io_serv_;
     shared_ptr<AsyncAiPlayer> ptr_player1_;
     shared_ptr<AsyncAiPlayer> ptr_player2_;
   //  boost::asio::io_service::strand  strand_;
     ChessBoard board_;
     AsyncPlayer::EndStatus status_;
-
+    Move move_;
+    AsyncPlayer::ResultReadyHandler StatusFunc_;
 };

@@ -38,35 +38,55 @@ void AsyncAiPlayer::asyncPrepare(const ChessBoard & board,
     // do nothing
     // он должен етот хедлер визвать или положить в ПОСТ ???
 
-    auto wrapper = strand_->wrap(handler);
+    //auto wrapper = strand_->wrap(handler);
 
-    ptr_serv_->post(  boost::bind( &AsyncAiPlayer::prepare, shared_from_this(),
-                        board, wrapper) );
-// difference???
- //   strand_->post(  boost::bind( &AsyncAiPlayer::prepare, shared_from_this(),
-  //                              board, handler) );
+    strand_->post(  boost::bind( &AsyncAiPlayer::prepare, shared_from_this(),
+                        boost::cref(board), handler) );
+
+
+    /*  difference???
+    strand_->post(  boost::bind( &AsyncAiPlayer::prepare, shared_from_this(),
+                                board, handler) );
+
+    ptr_serv_->post(  strand_->wrap(boost::bind( &AsyncAiPlayer::prepare, shared_from_this(),
+                        board) );
+
+     * Несмотря на то, что работа гарантированно выполняется серийно (ptr_serv_->post(  strand_->wrap),
+     * не гарантируется, что порядок работы фактически происходит
+     * в результате встроенной обертки обработчика. И если порядок
+     * действительно важен, нам нужно посмотреть на встроенную оболочку
+     * обработчика при использовании объекта strand. strand_->post(
+     * Torjo
+     */
 
 }
+
 void AsyncAiPlayer::asyncGetNext(const ChessBoard & orig_board,
                                  MoveReadyHandler handler)
 {
-    //auto wrapper = strand_->wrap(boost::bind( handler, ph::_1));
+    strand_->post(boost::bind( &AsyncAiPlayer::getMove,
+                               shared_from_this(),
+                               boost::cref(orig_board), handler ));
 
-    auto wrapper = strand_->wrap( handler);
-
+    /*auto wrapper = strand_->wrap( handler);
     ptr_serv_->post(boost::bind( &AsyncAiPlayer::getMove,
                                  shared_from_this(),
                                  orig_board, wrapper ));
+    */
 }
 
 void AsyncAiPlayer::asyncShowMove(const ChessBoard & board,
                                   const Move & move,
                                   ReadyHandler handler)
 {
+    strand_->post(boost::bind( &AsyncAiPlayer::showMove, shared_from_this(),
+                               boost::cref(board), boost::cref(move), handler));
+    /*
     auto wrapper = strand_->wrap(handler);
 
     ptr_serv_->post(  boost::bind( &AsyncAiPlayer::asyncShowMove, shared_from_this(),
                         board, move, wrapper) );
+                        */
 }
 
 void AsyncAiPlayer::asyncShowResult(const ChessBoard & board,
